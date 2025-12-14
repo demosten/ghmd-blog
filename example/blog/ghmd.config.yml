@@ -1,0 +1,30 @@
+# Blog metadata
+title: "My Blog"
+description: "Thoughts on code and life"
+author: "Stan"
+
+# Appearance
+# Available light themes: default_light, catppuccin_latte_light, rose_pine_dawn_light, github_light, gruvbox_light
+# Available dark themes: default_dark, catppuccin_mocha_dark, catppuccin_frappe_dark, catppuccin_macchiato_dark,
+#                        rose_pine_dark, rose_pine_moon_dark, dracula_dark, tokyo_night_dark, nord_dark,
+#                        github_dark, gruvbox_dark
+theme_light: "catppuccin_latte_light"
+theme_dark: "catppuccin_mocha_dark"
+
+# Fonts - separate configuration for body text and code blocks
+# Available body fonts: system, inter, manrope, space-grotesk, outfit, geist
+# Available code fonts: system, jetbrains-mono, fira-code, geist-mono
+font_body: "geist"          # Font for body text (sans-serif fonts)
+font_code: "geist-mono" # Font for code blocks (monospace fonts)
+
+# Features
+show_toc: true
+toc_min_headings: 3
+show_date: true
+show_reading_time: true
+show_repo_link: false
+sort_by_update: false
+max_posts_per_index_page: 0
+
+# Output settings
+base_url: "/"

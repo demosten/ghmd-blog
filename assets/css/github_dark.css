@@ -1,0 +1,49 @@
+/* GitHub Dark - Dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - GitHub Dark */
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-code: #161b22;
+    --text-primary: #c9d1d9;
+    --text-secondary: #8b949e;
+    --text-muted: #6e7681;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --border: #30363d;
+    --shadow: rgba(1, 4, 9, 0.4);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #8b949e;        /* Comment */
+    --syntax-keyword: #ff7b72;        /* Keyword */
+    --syntax-string: #a5d6ff;         /* String */
+    --syntax-number: #79c0ff;         /* Number */
+    --syntax-function: #d2a8ff;       /* Function */
+    --syntax-class: #d2a8ff;          /* Class */
+    --syntax-operator: #ff7b72;       /* Operator */
+    --syntax-builtin: #79c0ff;        /* Builtin */
+    --syntax-variable: #ffa657;       /* Variable */
+    --syntax-escape: #79c0ff;         /* Escape */
+    --syntax-attribute: #d2a8ff;      /* Attribute */
+    --syntax-tag: #7ee787;            /* Tag */
+    --syntax-decorator: #d2a8ff;      /* Decorator */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="dark"] {
+        --font-size-base: 16px;
+    }
+}

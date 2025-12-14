@@ -1,0 +1,49 @@
+/* Nord - Dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - Nord */
+    --bg-primary: #2e3440;
+    --bg-secondary: #3b4252;
+    --bg-code: #434c5e;
+    --text-primary: #eceff4;
+    --text-secondary: #e5e9f0;
+    --text-muted: #d8dee9;
+    --accent: #88c0d0;
+    --accent-hover: #8fbcbb;
+    --border: #4c566a;
+    --shadow: rgba(0, 0, 0, 0.4);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #616e88;        /* Nord3 (slightly brighter) */
+    --syntax-keyword: #81a1c1;        /* Nord9 */
+    --syntax-string: #a3be8c;         /* Nord14 */
+    --syntax-number: #b48ead;         /* Nord15 */
+    --syntax-function: #88c0d0;       /* Nord8 */
+    --syntax-class: #8fbcbb;          /* Nord7 */
+    --syntax-operator: #81a1c1;       /* Nord9 */
+    --syntax-builtin: #88c0d0;        /* Nord8 */
+    --syntax-variable: #d8dee9;       /* Nord4 */
+    --syntax-escape: #ebcb8b;         /* Nord13 */
+    --syntax-attribute: #8fbcbb;      /* Nord7 */
+    --syntax-tag: #81a1c1;            /* Nord9 */
+    --syntax-decorator: #d08770;      /* Nord12 */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="dark"] {
+        --font-size-base: 16px;
+    }
+}

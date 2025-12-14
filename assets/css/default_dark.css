@@ -1,0 +1,43 @@
+/* ghmd-blog default dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - Dark theme */
+    --bg-primary: #18181b;
+    --bg-secondary: #27272a;
+    --bg-code: #27272a;
+    --text-primary: #fafafa;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --border: #3f3f46;
+    --shadow: rgba(0, 0, 0, 0.3);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #71717a;        /* Muted gray */
+    --syntax-keyword: #f87171;        /* Red */
+    --syntax-string: #4ade80;         /* Green */
+    --syntax-number: #c084fc;         /* Purple */
+    --syntax-function: #60a5fa;       /* Blue */
+    --syntax-class: #fbbf24;          /* Yellow */
+    --syntax-operator: #f87171;       /* Red */
+    --syntax-builtin: #22d3ee;        /* Cyan */
+    --syntax-variable: #fb923c;       /* Orange */
+    --syntax-escape: #c084fc;         /* Purple */
+    --syntax-attribute: #fbbf24;      /* Yellow */
+    --syntax-tag: #60a5fa;            /* Blue */
+    --syntax-decorator: #22d3ee;      /* Cyan */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}

@@ -1,0 +1,49 @@
+/* Rosé Pine Dawn - Light theme */
+
+:root[data-theme="light"] {
+    /* Colors - Rosé Pine Dawn */
+    --bg-primary: #faf4ed;
+    --bg-secondary: #fffaf3;
+    --bg-code: #f2e9e1;
+    --text-primary: #575279;
+    --text-secondary: #797593;
+    --text-muted: #9893a5;
+    --accent: #286983;
+    --accent-hover: #56949f;
+    --border: #dfdad9;
+    --shadow: rgba(87, 82, 121, 0.1);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #9893a5;        /* Muted */
+    --syntax-keyword: #286983;        /* Pine */
+    --syntax-string: #ea9d34;         /* Gold */
+    --syntax-number: #d7827e;         /* Rose */
+    --syntax-function: #b4637a;       /* Love */
+    --syntax-class: #56949f;          /* Foam */
+    --syntax-operator: #286983;       /* Pine */
+    --syntax-builtin: #b4637a;        /* Love */
+    --syntax-variable: #d7827e;       /* Rose */
+    --syntax-escape: #ea9d34;         /* Gold */
+    --syntax-attribute: #907aa9;      /* Iris */
+    --syntax-tag: #286983;            /* Pine */
+    --syntax-decorator: #907aa9;      /* Iris */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="light"] {
+        --font-size-base: 16px;
+    }
+}

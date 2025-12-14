@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme & Font Sampler - ghmd-blog</title>
+    <meta name="description" content="Interactive preview of all themes and fonts available in ghmd-blog">
+
+    <!-- Load base styles -->
+    <link rel="stylesheet" href="assets/css/base.css">
+
+    <!-- Load ALL theme CSS files -->
+    <link rel="stylesheet" href="assets/css/default_light.css">
+    <link rel="stylesheet" href="assets/css/default_dark.css">
+    <link rel="stylesheet" href="assets/css/github_light.css">
+    <link rel="stylesheet" href="assets/css/github_dark.css">
+    <link rel="stylesheet" href="assets/css/catppuccin_latte_light.css">
+    <link rel="stylesheet" href="assets/css/catppuccin_mocha_dark.css">
+    <link rel="stylesheet" href="assets/css/catppuccin_frappe_dark.css">
+    <link rel="stylesheet" href="assets/css/catppuccin_macchiato_dark.css">
+    <link rel="stylesheet" href="assets/css/rose_pine_dawn_light.css">
+    <link rel="stylesheet" href="assets/css/rose_pine_dark.css">
+    <link rel="stylesheet" href="assets/css/rose_pine_moon_dark.css">
+    <link rel="stylesheet" href="assets/css/dracula_dark.css">
+    <link rel="stylesheet" href="assets/css/tokyo_night_dark.css">
+    <link rel="stylesheet" href="assets/css/nord_dark.css">
+    <link rel="stylesheet" href="assets/css/gruvbox_light.css">
+    <link rel="stylesheet" href="assets/css/gruvbox_dark.css">
+
+    <!-- Load syntax highlighting -->
+    <link rel="stylesheet" href="assets/css/syntax_light.css">
+    <link rel="stylesheet" href="assets/css/syntax_dark.css">
+
+    <!-- Load ALL body font CSS files -->
+    <link rel="stylesheet" href="assets/css/fonts/body/system.css">
+    <link rel="stylesheet" href="assets/css/fonts/body/inter.css">
+    <link rel="stylesheet" href="assets/css/fonts/body/manrope.css">
+    <link rel="stylesheet" href="assets/css/fonts/body/space-grotesk.css">
+    <link rel="stylesheet" href="assets/css/fonts/body/outfit.css">
+    <link rel="stylesheet" href="assets/css/fonts/body/geist.css">
+
+    <!-- Load ALL code font CSS files -->
+    <link rel="stylesheet" href="assets/css/fonts/code/system.css">
+    <link rel="stylesheet" href="assets/css/fonts/code/jetbrains-mono.css">
+    <link rel="stylesheet" href="assets/css/fonts/code/fira-code.css">
+    <link rel="stylesheet" href="assets/css/fonts/code/geist-mono.css">
+
+    <style>
+        /* Sampler-specific styles */
+        :root {
+            --content-width: 100% !important;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .sampler-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            gap: 0;
+        }
+
+        /* Left side: Preview pane */
+        .preview-pane {
+            padding: 2rem;
+            overflow-y: auto;
+            border-right: 2px solid var(--border);
+            max-height: 100vh;
+            position: sticky;
+            top: 0;
+            /* Apply theme colors and fonts to preview pane and all descendants */
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+        }
+
+        /* Override body styles for preview pane content */
+        .preview-pane * {
+            font-family: inherit;
+        }
+
+        .preview-pane code,
+        .preview-pane pre,
+        .preview-pane .highlight {
+            font-family: var(--font-mono);
+        }
+
+        /* Apply all theme variables to preview pane elements */
+        .preview-pane a {
+            color: var(--accent);
+        }
+
+        .preview-pane a:hover {
+            color: var(--accent-hover);
+        }
+
+        .preview-pane code {
+            background-color: var(--bg-code);
+            color: var(--text-primary);
+        }
+
+        .preview-pane pre {
+            background-color: var(--bg-code);
+        }
+
+        .preview-pane blockquote {
+            border-left-color: var(--border);
+            color: var(--text-secondary);
+        }
+
+        .preview-pane table {
+            border-color: var(--border);
+        }
+
+        .preview-pane th,
+        .preview-pane td {
+            border-color: var(--border);
+        }
+
+        .preview-pane h1, .preview-pane h2,
+        .preview-pane h3, .preview-pane h4,
+        .preview-pane h5, .preview-pane h6 {
+            color: var(--text-primary);
+        }
+
+        .preview-pane .post-author {
+            color: var(--text-secondary);
+        }
+
+        /* Syntax highlighting */
+        .preview-pane .highlight .c { color: var(--syntax-comment); }
+        .preview-pane .highlight .k { color: var(--syntax-keyword); }
+        .preview-pane .highlight .s, .preview-pane .highlight .s2 { color: var(--syntax-string); }
+        .preview-pane .highlight .m, .preview-pane .highlight .mi { color: var(--syntax-number); }
+        .preview-pane .highlight .nf { color: var(--syntax-function); }
+        .preview-pane .highlight .nc { color: var(--syntax-class); }
+        .preview-pane .highlight .o { color: var(--syntax-operator); }
+        .preview-pane .highlight .nb { color: var(--syntax-builtin); }
+        .preview-pane .highlight .nv { color: var(--syntax-variable); }
+        .preview-pane .highlight .nt { color: var(--syntax-tag); }
+        .preview-pane .highlight .na { color: var(--syntax-attribute); }
+        .preview-pane .highlight .nd { color: var(--syntax-decorator); }
+        .preview-pane .highlight .nn { color: var(--syntax-class); }
+        .preview-pane .highlight .l { color: var(--syntax-string); }
+        .preview-pane .highlight .p { color: var(--text-primary); }
+
+        /* Right side: Controls */
+        .controls-pane {
+            padding: 2rem;
+            background-color: var(--bg-secondary);
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+
+        .controls-section {
+            margin-bottom: 2rem;
+        }
+
+        .controls-section h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background-color: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option:hover {
+            border-color: var(--accent);
+        }
+
+        .radio-option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .radio-option input[type="radio"]:checked {
+            accent-color: var(--accent);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Responsive: stack on small screens */
+        @media (max-width: 1024px) {
+            .sampler-container {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-pane {
+                border-right: none;
+                border-bottom: 2px solid var(--border);
+                position: static;
+                max-height: none;
+            }
+
+            .controls-pane {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sampler-container">
+        <!-- Left: Preview Pane -->
+        <div class="preview-pane" id="preview-pane">
+            <article class="post">
+                <header class="post-header">
+                    <h1 class="post-title">Theme & Font Preview</h1>
+                    <p class="post-author">Live sample of ghmd-blog styling</p>
+                </header>
+
+                <div class="post-content">
+                    <h1 id="getting-started-with-markdown">Getting Started with Markdown</h1>
+<p>Markdown is a lightweight markup language that lets you write formatted content using plain text. Here's everything you need to know to write great blog posts.</p>
+<h2 id="basic-formatting">Basic Formatting</h2>
+<p>You can make text <strong>bold</strong> with double asterisks, <em>italic</em> with single asterisks, or <strong><em>both</em></strong> with triple asterisks.</p>
+<p>You can also use <del>strikethrough</del> with double tildes.</p>
+<h2 id="links-and-images">Links and Images</h2>
+<p>Create links like this: <a href="https://github.com">Visit GitHub</a></p>
+<p>Add images with similar syntax:</p>
+<div class="highlight"><pre><span></span><code>![<span class="nt">Alt text</span>](<span class="na">path/to/image.jpg</span>)
+</code></pre></div>
+<p><img alt="That escalated quickly" src="images/escalate.jpg" /></p>
+<h2 id="lists">Lists</h2>
+<p>Unordered lists use dashes or asterisks:</p>
+<ul>
+<li>First item</li>
+<li>Second item</li>
+<li>Nested item</li>
+<li>Another nested item</li>
+<li>Third item</li>
+</ul>
+<p>Ordered lists use numbers:</p>
+<ol>
+<li>Step one</li>
+<li>Step two</li>
+<li>Step three</li>
+</ol>
+<h2 id="blockquotes">Blockquotes</h2>
+<blockquote>
+<p>"The best way to predict the future is to invent it."
+— Alan Kay</p>
+</blockquote>
+<h2 id="tables">Tables</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Supported</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Headers</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Bold</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Code</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Tables</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<h2 id="code">Code</h2>
+<p>Inline code uses backticks: <code>const x = 42</code></p>
+<p>Code blocks use triple backticks with an optional language:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">hello</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="frontmatter">Frontmatter</h2>
+<p>Each post starts with YAML frontmatter between <code>---</code> markers:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Your Post Title</span>
+<span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2025-01-15</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A brief summary</span>
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">tag1</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">tag2</span><span class="p p-Indicator">]</span>
+<span class="nt">draft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nn">---</span>
+</code></pre></div>
+<p>That's it! Start writing your posts now.</p>
+                </div>
+            </article>
+        </div>
+
+        <!-- Right: Controls -->
+        <div class="controls-pane">
+            <div class="controls-section">
+                <h2>Select Theme</h2>
+                <div class="radio-group" id="theme-group">
+                    <!-- Light Themes -->
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-default_light" value="light">
+                        <label for="theme-default_light">Default Light</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-github_light" value="light">
+                        <label for="theme-github_light">GitHub Light</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-catppuccin_latte_light" value="light">
+                        <label for="theme-catppuccin_latte_light">Catppuccin Latte</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-rose_pine_dawn_light" value="light">
+                        <label for="theme-rose_pine_dawn_light">Rosé Pine Dawn</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-gruvbox_light" value="light">
+                        <label for="theme-gruvbox_light">Gruvbox Light</label>
+                    </div>
+
+                    <!-- Dark Themes -->
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-default_dark" value="dark" checked>
+                        <label for="theme-default_dark">Default Dark</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-github_dark" value="dark">
+                        <label for="theme-github_dark">GitHub Dark</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-catppuccin_mocha_dark" value="dark">
+                        <label for="theme-catppuccin_mocha_dark">Catppuccin Mocha</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-catppuccin_frappe_dark" value="dark">
+                        <label for="theme-catppuccin_frappe_dark">Catppuccin Frappé</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-catppuccin_macchiato_dark" value="dark">
+                        <label for="theme-catppuccin_macchiato_dark">Catppuccin Macchiato</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-rose_pine_dark" value="dark">
+                        <label for="theme-rose_pine_dark">Rosé Pine</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-rose_pine_moon_dark" value="dark">
+                        <label for="theme-rose_pine_moon_dark">Rosé Pine Moon</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-dracula_dark" value="dark">
+                        <label for="theme-dracula_dark">Dracula</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-tokyo_night_dark" value="dark">
+                        <label for="theme-tokyo_night_dark">Tokyo Night</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-nord_dark" value="dark">
+                        <label for="theme-nord_dark">Nord</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="theme" id="theme-gruvbox_dark" value="dark">
+                        <label for="theme-gruvbox_dark">Gruvbox Dark</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h2>Select Body Font</h2>
+                <div class="radio-group" id="body-font-group">
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-system" value="system" checked>
+                        <label for="font-body-system">System (Native)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-inter" value="inter">
+                        <label for="font-body-inter">Inter</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-manrope" value="manrope">
+                        <label for="font-body-manrope">Manrope</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-space-grotesk" value="space-grotesk">
+                        <label for="font-body-space-grotesk">Space Grotesk</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-outfit" value="outfit">
+                        <label for="font-body-outfit">Outfit</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="body-font" id="font-body-geist" value="geist">
+                        <label for="font-body-geist">Geist</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <h2>Select Code Font</h2>
+                <div class="radio-group" id="code-font-group">
+                    <div class="radio-option">
+                        <input type="radio" name="code-font" id="font-code-system" value="system" checked>
+                        <label for="font-code-system">System (Native Mono)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="code-font" id="font-code-jetbrains-mono" value="jetbrains-mono">
+                        <label for="font-code-jetbrains-mono">JetBrains Mono</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="code-font" id="font-code-fira-code" value="fira-code">
+                        <label for="font-code-fira-code">Fira Code</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="code-font" id="font-code-geist-mono" value="geist-mono">
+                        <label for="font-code-geist-mono">Geist Mono</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const previewPane = document.getElementById('preview-pane');
+
+            // All theme definitions with CSS variables (32 variables per theme including spacing/typography)
+            const THEMES = {
+                'catppuccin_frappe_dark': {'accent': '#8caaee', 'accent-hover': '#babbf1', 'bg-code': '#414559', 'bg-primary': '#303446', 'bg-secondary': '#292c3c', 'border': '#51576d', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(35, 38, 52, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#e5c890', 'syntax-builtin': '#e78284', 'syntax-class': '#e5c890', 'syntax-comment': '#949cbb', 'syntax-decorator': '#f2d5cf', 'syntax-escape': '#f4b8e4', 'syntax-function': '#8caaee', 'syntax-keyword': '#ca9ee6', 'syntax-number': '#ef9f76', 'syntax-operator': '#99d1db', 'syntax-string': '#a6d189', 'syntax-tag': '#a6d189', 'syntax-variable': '#ea999c', 'text-muted': '#a5adce', 'text-primary': '#c6d0f5', 'text-secondary': '#b5bfe2'},
+                'catppuccin_latte_light': {'accent': '#1e66f5', 'accent-hover': '#04a5e5', 'bg-code': '#dce0e8', 'bg-primary': '#eff1f5', 'bg-secondary': '#e6e9ef', 'border': '#9ca0b0', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(76, 79, 105, 0.1)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#df8e1d', 'syntax-builtin': '#d20f39', 'syntax-class': '#df8e1d', 'syntax-comment': '#7c7f93', 'syntax-decorator': '#dc8a78', 'syntax-escape': '#ea76cb', 'syntax-function': '#1e66f5', 'syntax-keyword': '#8839ef', 'syntax-number': '#fe640b', 'syntax-operator': '#04a5e5', 'syntax-string': '#40a02b', 'syntax-tag': '#40a02b', 'syntax-variable': '#e64553', 'text-muted': '#6c6f85', 'text-primary': '#4c4f69', 'text-secondary': '#5c5f77'},
+                'catppuccin_macchiato_dark': {'accent': '#8aadf4', 'accent-hover': '#b7bdf8', 'bg-code': '#363a4f', 'bg-primary': '#24273a', 'bg-secondary': '#1e2030', 'border': '#494d64', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(24, 25, 38, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#eed49f', 'syntax-builtin': '#ed8796', 'syntax-class': '#eed49f', 'syntax-comment': '#939ab7', 'syntax-decorator': '#f4dbd6', 'syntax-escape': '#f5bde6', 'syntax-function': '#8aadf4', 'syntax-keyword': '#c6a0f6', 'syntax-number': '#f5a97f', 'syntax-operator': '#91d7e3', 'syntax-string': '#a6da95', 'syntax-tag': '#a6da95', 'syntax-variable': '#ee99a0', 'text-muted': '#a5adcb', 'text-primary': '#cad3f5', 'text-secondary': '#b8c0e0'},
+                'catppuccin_mocha_dark': {'accent': '#89b4fa', 'accent-hover': '#b4befe', 'bg-code': '#313244', 'bg-primary': '#1e1e2e', 'bg-secondary': '#181825', 'border': '#45475a', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(17, 17, 27, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#f9e2af', 'syntax-builtin': '#f38ba8', 'syntax-class': '#f9e2af', 'syntax-comment': '#9399b2', 'syntax-decorator': '#f5e0dc', 'syntax-escape': '#f5c2e7', 'syntax-function': '#89b4fa', 'syntax-keyword': '#cba6f7', 'syntax-number': '#fab387', 'syntax-operator': '#89dceb', 'syntax-string': '#a6e3a1', 'syntax-tag': '#a6e3a1', 'syntax-variable': '#eba0ac', 'text-muted': '#a6adc8', 'text-primary': '#cdd6f4', 'text-secondary': '#bac2de'},
+                'default_dark': {'accent': '#60a5fa', 'accent-hover': '#93c5fd', 'bg-code': '#27272a', 'bg-primary': '#18181b', 'bg-secondary': '#27272a', 'border': '#3f3f46', 'content-width': '720px', 'font-size-base': '17px', 'line-height': '1.7', 'shadow': 'rgba(0, 0, 0, 0.3)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#fbbf24', 'syntax-builtin': '#22d3ee', 'syntax-class': '#fbbf24', 'syntax-comment': '#71717a', 'syntax-decorator': '#22d3ee', 'syntax-escape': '#c084fc', 'syntax-function': '#60a5fa', 'syntax-keyword': '#f87171', 'syntax-number': '#c084fc', 'syntax-operator': '#f87171', 'syntax-string': '#4ade80', 'syntax-tag': '#60a5fa', 'syntax-variable': '#fb923c', 'text-muted': '#71717a', 'text-primary': '#fafafa', 'text-secondary': '#a1a1aa'},
+                'default_light': {'accent': '#7c3aed', 'accent-hover': '#6d28d9', 'bg-code': '#f3f1f5', 'bg-primary': '#fdfbff', 'bg-secondary': '#f5f3f7', 'border': '#e2dfe7', 'content-width': '720px', 'font-size-base': '17px', 'line-height': '1.7', 'shadow': 'rgba(124, 58, 237, 0.08)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#d97706', 'syntax-builtin': '#0891b2', 'syntax-class': '#d97706', 'syntax-comment': '#6e6a7a', 'syntax-decorator': '#0891b2', 'syntax-escape': '#a855f7', 'syntax-function': '#7c3aed', 'syntax-keyword': '#db2777', 'syntax-number': '#7c3aed', 'syntax-operator': '#db2777', 'syntax-string': '#059669', 'syntax-tag': '#7c3aed', 'syntax-variable': '#ea580c', 'text-muted': '#6e6a7a', 'text-primary': '#1a1625', 'text-secondary': '#4a4556'},
+                'dracula_dark': {'accent': '#bd93f9', 'accent-hover': '#ff79c6', 'bg-code': '#44475a', 'bg-primary': '#282a36', 'bg-secondary': '#21222c', 'border': '#44475a', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(0, 0, 0, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#50fa7b', 'syntax-builtin': '#8be9fd', 'syntax-class': '#8be9fd', 'syntax-comment': '#6272a4', 'syntax-decorator': '#50fa7b', 'syntax-escape': '#ff79c6', 'syntax-function': '#50fa7b', 'syntax-keyword': '#ff79c6', 'syntax-number': '#bd93f9', 'syntax-operator': '#ff79c6', 'syntax-string': '#f1fa8c', 'syntax-tag': '#ff79c6', 'syntax-variable': '#f8f8f2', 'text-muted': '#6272a4', 'text-primary': '#f8f8f2', 'text-secondary': '#e9e9f4'},
+                'github_dark': {'accent': '#58a6ff', 'accent-hover': '#79c0ff', 'bg-code': '#161b22', 'bg-primary': '#0d1117', 'bg-secondary': '#161b22', 'border': '#30363d', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(1, 4, 9, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#d2a8ff', 'syntax-builtin': '#79c0ff', 'syntax-class': '#d2a8ff', 'syntax-comment': '#8b949e', 'syntax-decorator': '#d2a8ff', 'syntax-escape': '#79c0ff', 'syntax-function': '#d2a8ff', 'syntax-keyword': '#ff7b72', 'syntax-number': '#79c0ff', 'syntax-operator': '#ff7b72', 'syntax-string': '#a5d6ff', 'syntax-tag': '#7ee787', 'syntax-variable': '#ffa657', 'text-muted': '#6e7681', 'text-primary': '#c9d1d9', 'text-secondary': '#8b949e'},
+                'github_light': {'accent': '#0969da', 'accent-hover': '#0550ae', 'bg-code': '#f6f8fa', 'bg-primary': '#ffffff', 'bg-secondary': '#f6f8fa', 'border': '#d0d7de', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(27, 31, 35, 0.04)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#6f42c1', 'syntax-builtin': '#005cc5', 'syntax-class': '#6f42c1', 'syntax-comment': '#6a737d', 'syntax-decorator': '#6f42c1', 'syntax-escape': '#005cc5', 'syntax-function': '#6f42c1', 'syntax-keyword': '#d73a49', 'syntax-number': '#005cc5', 'syntax-operator': '#d73a49', 'syntax-string': '#032f62', 'syntax-tag': '#22863a', 'syntax-variable': '#e36209', 'text-muted': '#6e7781', 'text-primary': '#24292f', 'text-secondary': '#57606a'},
+                'gruvbox_dark': {'accent': '#83a598', 'accent-hover': '#8ec07c', 'bg-code': '#3c3836', 'bg-primary': '#282828', 'bg-secondary': '#1d2021', 'border': '#504945', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(0, 0, 0, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#fabd2f', 'syntax-builtin': '#fe8019', 'syntax-class': '#fabd2f', 'syntax-comment': '#928374', 'syntax-decorator': '#8ec07c', 'syntax-escape': '#d3869b', 'syntax-function': '#83a598', 'syntax-keyword': '#fb4934', 'syntax-number': '#d3869b', 'syntax-operator': '#8ec07c', 'syntax-string': '#b8bb26', 'syntax-tag': '#83a598', 'syntax-variable': '#ebdbb2', 'text-muted': '#bdae93', 'text-primary': '#ebdbb2', 'text-secondary': '#d5c4a1'},
+                'gruvbox_light': {'accent': '#076678', 'accent-hover': '#427b58', 'bg-code': '#f2e5bc', 'bg-primary': '#fbf1c7', 'bg-secondary': '#f9f5d7', 'border': '#bdae93', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(60, 56, 54, 0.1)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#b57614', 'syntax-builtin': '#af3a03', 'syntax-class': '#b57614', 'syntax-comment': '#928374', 'syntax-decorator': '#427b58', 'syntax-escape': '#8f3f71', 'syntax-function': '#076678', 'syntax-keyword': '#9d0006', 'syntax-number': '#8f3f71', 'syntax-operator': '#427b58', 'syntax-string': '#79740e', 'syntax-tag': '#076678', 'syntax-variable': '#3c3836', 'text-muted': '#665c54', 'text-primary': '#3c3836', 'text-secondary': '#504945'},
+                'nord_dark': {'accent': '#88c0d0', 'accent-hover': '#8fbcbb', 'bg-code': '#434c5e', 'bg-primary': '#2e3440', 'bg-secondary': '#3b4252', 'border': '#4c566a', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(0, 0, 0, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#8fbcbb', 'syntax-builtin': '#88c0d0', 'syntax-class': '#8fbcbb', 'syntax-comment': '#616e88', 'syntax-decorator': '#d08770', 'syntax-escape': '#ebcb8b', 'syntax-function': '#88c0d0', 'syntax-keyword': '#81a1c1', 'syntax-number': '#b48ead', 'syntax-operator': '#81a1c1', 'syntax-string': '#a3be8c', 'syntax-tag': '#81a1c1', 'syntax-variable': '#d8dee9', 'text-muted': '#d8dee9', 'text-primary': '#eceff4', 'text-secondary': '#e5e9f0'},
+                'rose_pine_dark': {'accent': '#31748f', 'accent-hover': '#9ccfd8', 'bg-code': '#26233a', 'bg-primary': '#191724', 'bg-secondary': '#1f1d2e', 'border': '#403d52', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(25, 23, 36, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#c4a7e7', 'syntax-builtin': '#eb6f92', 'syntax-class': '#9ccfd8', 'syntax-comment': '#6e6a86', 'syntax-decorator': '#c4a7e7', 'syntax-escape': '#f6c177', 'syntax-function': '#eb6f92', 'syntax-keyword': '#31748f', 'syntax-number': '#ebbcba', 'syntax-operator': '#31748f', 'syntax-string': '#f6c177', 'syntax-tag': '#31748f', 'syntax-variable': '#ebbcba', 'text-muted': '#6e6a86', 'text-primary': '#e0def4', 'text-secondary': '#908caa'},
+                'rose_pine_dawn_light': {'accent': '#286983', 'accent-hover': '#56949f', 'bg-code': '#f2e9e1', 'bg-primary': '#faf4ed', 'bg-secondary': '#fffaf3', 'border': '#dfdad9', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(87, 82, 121, 0.1)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#907aa9', 'syntax-builtin': '#b4637a', 'syntax-class': '#56949f', 'syntax-comment': '#9893a5', 'syntax-decorator': '#907aa9', 'syntax-escape': '#ea9d34', 'syntax-function': '#b4637a', 'syntax-keyword': '#286983', 'syntax-number': '#d7827e', 'syntax-operator': '#286983', 'syntax-string': '#ea9d34', 'syntax-tag': '#286983', 'syntax-variable': '#d7827e', 'text-muted': '#9893a5', 'text-primary': '#575279', 'text-secondary': '#797593'},
+                'rose_pine_moon_dark': {'accent': '#3e8fb0', 'accent-hover': '#9ccfd8', 'bg-code': '#393552', 'bg-primary': '#232136', 'bg-secondary': '#2a273f', 'border': '#44415a', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(35, 33, 54, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#c4a7e7', 'syntax-builtin': '#eb6f92', 'syntax-class': '#9ccfd8', 'syntax-comment': '#6e6a86', 'syntax-decorator': '#c4a7e7', 'syntax-escape': '#f6c177', 'syntax-function': '#eb6f92', 'syntax-keyword': '#3e8fb0', 'syntax-number': '#ea9a97', 'syntax-operator': '#3e8fb0', 'syntax-string': '#f6c177', 'syntax-tag': '#3e8fb0', 'syntax-variable': '#ea9a97', 'text-muted': '#6e6a86', 'text-primary': '#e0def4', 'text-secondary': '#908caa'},
+                'tokyo_night_dark': {'accent': '#7aa2f7', 'accent-hover': '#7dcfff', 'bg-code': '#24283b', 'bg-primary': '#1a1b26', 'bg-secondary': '#16161e', 'border': '#3b4261', 'content-width': '720px', 'font-size-base': '16px', 'line-height': '1.7', 'shadow': 'rgba(0, 0, 0, 0.4)', 'spacing-2xl': '3rem', 'spacing-lg': '1.5rem', 'spacing-md': '1rem', 'spacing-sm': '0.5rem', 'spacing-xl': '2rem', 'spacing-xs': '0.25rem', 'syntax-attribute': '#7aa2f7', 'syntax-builtin': '#7aa2f7', 'syntax-class': '#7aa2f7', 'syntax-comment': '#565f89', 'syntax-decorator': '#7dcfff', 'syntax-escape': '#bb9af7', 'syntax-function': '#7aa2f7', 'syntax-keyword': '#bb9af7', 'syntax-number': '#ff9e64', 'syntax-operator': '#bb9af7', 'syntax-string': '#9ece6a', 'syntax-tag': '#7dcfff', 'syntax-variable': '#c0caf5', 'text-muted': '#565f89', 'text-primary': '#a9b1d6', 'text-secondary': '#9aa5ce'}
+            };
+
+            // Font family mappings
+            const BODY_FONTS = {
+                'system': 'system-ui, -apple-system, sans-serif',
+                'inter': "'Inter', system-ui, -apple-system, sans-serif",
+                'manrope': "'Manrope', system-ui, -apple-system, sans-serif",
+                'space-grotesk': "'Space Grotesk', system-ui, -apple-system, sans-serif",
+                'outfit': "'Outfit', system-ui, -apple-system, sans-serif",
+                'geist': "'Geist Sans', system-ui, -apple-system, sans-serif"
+            };
+
+            const CODE_FONTS = {
+                'system': "'Menlo', 'Monaco', 'Courier New', monospace",
+                'jetbrains-mono': "'JetBrains Mono', 'Menlo', monospace",
+                'fira-code': "'Fira Code', 'Menlo', monospace",
+                'geist-mono': "'Geist Mono', 'Menlo', monospace"
+            };
+
+            // Function to apply theme variables to preview pane
+            function applyTheme(themeName) {
+                const theme = THEMES[themeName];
+                if (!theme) {
+                    console.error('Theme not found:', themeName);
+                    return;
+                }
+
+                // Apply all CSS variables from theme
+                for (const [varName, varValue] of Object.entries(theme)) {
+                    previewPane.style.setProperty('--' + varName, varValue);
+                }
+            }
+
+            // Theme change handler
+            document.getElementById('theme-group').addEventListener('change', function(e) {
+                if (e.target.type === 'radio') {
+                    // Get theme name from radio button ID (remove 'theme-' prefix)
+                    const themeName = e.target.id.replace('theme-', '');
+                    applyTheme(themeName);
+                }
+            });
+
+            // Body font change handler
+            document.getElementById('body-font-group').addEventListener('change', function(e) {
+                if (e.target.type === 'radio') {
+                    const fontValue = e.target.value;
+                    const fontFamily = BODY_FONTS[fontValue];
+                    previewPane.style.setProperty('--font-sans', fontFamily);
+                }
+            });
+
+            // Code font change handler
+            document.getElementById('code-font-group').addEventListener('change', function(e) {
+                if (e.target.type === 'radio') {
+                    const fontValue = e.target.value;
+                    const fontFamily = CODE_FONTS[fontValue];
+                    previewPane.style.setProperty('--font-mono', fontFamily);
+                }
+            });
+
+            // Initialize with default_dark theme on page load
+            applyTheme('default_dark');
+        })();
+    </script>
+</body>
+</html>

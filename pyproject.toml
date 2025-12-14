@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ghmd-blog"
+version = "0.1.0"
+description = "A static blog generator that reads markdown from GitHub and deploys to shared hosting"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [
+    {name = "Your Name", email = "you@example.com"}
+]
+keywords = ["blog", "static-site", "markdown", "github"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "python-frontmatter>=1.0.0",
+    "markdown>=3.5",
+    "pymdown-extensions>=10.0",
+    "Pygments>=2.17",
+    "Jinja2>=3.1",
+    "PyYAML>=6.0",
+    "click>=8.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+ghmd = "ghmd.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/ghmd-blog"
+Repository = "https://github.com/yourusername/ghmd-blog"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ghmd*"]
+
+[tool.setuptools.package-data]
+ghmd = ["templates/*.jinja", "templates/**/*.jinja"]
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

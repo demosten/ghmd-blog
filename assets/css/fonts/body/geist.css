@@ -1,0 +1,7 @@
+/* Geist (Body) - Vercel's modern sans-serif font */
+
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5/index.css');
+
+:root {
+    --font-sans: 'Geist Sans', system-ui, -apple-system, sans-serif;
+}

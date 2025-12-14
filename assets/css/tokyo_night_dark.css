@@ -1,0 +1,49 @@
+/* Tokyo Night - Dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - Tokyo Night */
+    --bg-primary: #1a1b26;
+    --bg-secondary: #16161e;
+    --bg-code: #24283b;
+    --text-primary: #a9b1d6;
+    --text-secondary: #9aa5ce;
+    --text-muted: #565f89;
+    --accent: #7aa2f7;
+    --accent-hover: #7dcfff;
+    --border: #3b4261;
+    --shadow: rgba(0, 0, 0, 0.4);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #565f89;        /* Comment */
+    --syntax-keyword: #bb9af7;        /* Magenta/Purple */
+    --syntax-string: #9ece6a;         /* Green */
+    --syntax-number: #ff9e64;         /* Orange */
+    --syntax-function: #7aa2f7;       /* Blue */
+    --syntax-class: #7aa2f7;          /* Blue */
+    --syntax-operator: #bb9af7;       /* Magenta */
+    --syntax-builtin: #7aa2f7;        /* Blue */
+    --syntax-variable: #c0caf5;       /* Foreground */
+    --syntax-escape: #bb9af7;         /* Magenta */
+    --syntax-attribute: #7aa2f7;      /* Blue */
+    --syntax-tag: #7dcfff;            /* Cyan */
+    --syntax-decorator: #7dcfff;      /* Cyan */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="dark"] {
+        --font-size-base: 16px;
+    }
+}

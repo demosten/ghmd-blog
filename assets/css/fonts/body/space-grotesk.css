@@ -1,0 +1,7 @@
+/* Space Grotesk (Body) - Unique geometric sans-serif from Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+    --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}

@@ -1,0 +1,104 @@
+{% extends "base.html.jinja" %}
+
+{% block title %}
+    {%- if filtered_tag %}
+        Posts tagged "{{ filtered_tag }}" | {{ config.title }}
+    {%- else %}
+        {{ config.title }}
+    {%- endif %}
+{% endblock %}
+
+{% block content %}
+<div class="posts-list">
+    {# Tag header - only show when filtering by tag #}
+    {% if filtered_tag %}
+    <div class="tag-header">
+        <h1 class="tag-title">Posts tagged: <span class="tag-name">{{ filtered_tag }}</span></h1>
+
+        {# Tag description - only on first page #}
+        {% if tag_description_html %}
+        <div class="tag-description">
+            {{ tag_description_html | safe }}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if posts %}
+        {% for post in posts %}
+        <article class="post-preview">
+            <h2 class="post-title">
+                <a href="{{ config.get_asset_url(post.output_path | string, page_depth|default(0)) }}">{{ post.title }}</a>
+                {% if post.is_html|default(false) %}
+                <span class="html-badge">HTML</span>
+                {% endif %}
+            </h2>
+
+            <div class="post-meta">
+                {% if config.show_date and post.date %}
+                <time datetime="{{ post.date.isoformat() }}">{{ post.date.strftime('%B %d, %Y') }}</time>
+                {% endif %}
+                {% if config.show_date and post.update|default(none) %}
+                <time datetime="{{ post.update.isoformat() }}" class="updated-date">Last updated: {{ post.update.strftime('%B %d, %Y') }}</time>
+                {% endif %}
+                {% if config.show_reading_time and not post.is_html|default(false) %}
+                <span class="reading-time">{{ post.reading_time }} min read</span>
+                {% endif %}
+            </div>
+
+            {% if post.description %}
+            <p class="post-description">{{ post.description }}</p>
+            {% endif %}
+
+            {% if post.tags|default([]) %}
+            <div class="post-tags">
+                {% for tag in post.tags %}
+                    {# Make tags clickable only on main index (not in tag-filtered view) #}
+                    {% if filtered_tag is none %}
+                        <a href="{{ config.get_asset_url('tags/' ~ (tag | slugify) ~ '/index.html', page_depth|default(0)) }}" class="tag">{{ tag }}</a>
+                    {% else %}
+                        <span class="tag">{{ tag }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </article>
+        {% endfor %}
+    {% else %}
+        <p class="no-posts">
+            {%- if filtered_tag %}
+                No posts found with tag "{{ filtered_tag }}".
+            {%- else %}
+                No posts yet. Create your first post in the <code>blog</code> folder!
+            {%- endif %}
+        </p>
+    {% endif %}
+
+    {# Pagination links - only show if there are multiple pages #}
+    {% if total_pages > 1 %}
+    <nav class="pagination" aria-label="Page navigation">
+        {% for page_num in range(1, total_pages + 1) %}
+            {% if page_num == current_page %}
+                <span class="page-number current" aria-current="page">{{ page_num }}</span>
+            {% else %}
+                {% if filtered_tag %}
+                    {# Tag-filtered pagination #}
+                    {% if page_num == 1 %}
+                        <a href="{{ config.get_asset_url('tags/' ~ (filtered_tag | slugify) ~ '/index.html', page_depth|default(0)) }}" class="page-number">{{ page_num }}</a>
+                    {% else %}
+                        <a href="{{ config.get_asset_url('tags/' ~ (filtered_tag | slugify) ~ '/index' ~ page_num ~ '.html', page_depth|default(0)) }}" class="page-number">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                    {# Main index pagination #}
+                    {% if page_num == 1 %}
+                        <a href="{{ config.get_asset_url('index.html', page_depth|default(0)) }}" class="page-number">{{ page_num }}</a>
+                    {% else %}
+                        <a href="{{ config.get_asset_url('index' ~ page_num ~ '.html', page_depth|default(0)) }}" class="page-number">{{ page_num }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

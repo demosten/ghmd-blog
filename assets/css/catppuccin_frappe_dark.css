@@ -1,0 +1,49 @@
+/* Catppuccin Frappé - Dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - Catppuccin Frappé */
+    --bg-primary: #303446;
+    --bg-secondary: #292c3c;
+    --bg-code: #414559;
+    --text-primary: #c6d0f5;
+    --text-secondary: #b5bfe2;
+    --text-muted: #a5adce;
+    --accent: #8caaee;
+    --accent-hover: #babbf1;
+    --border: #51576d;
+    --shadow: rgba(35, 38, 52, 0.4);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #949cbb;        /* Overlay2 */
+    --syntax-keyword: #ca9ee6;        /* Mauve */
+    --syntax-string: #a6d189;         /* Green */
+    --syntax-number: #ef9f76;         /* Peach */
+    --syntax-function: #8caaee;       /* Blue */
+    --syntax-class: #e5c890;          /* Yellow */
+    --syntax-operator: #99d1db;       /* Sky */
+    --syntax-builtin: #e78284;        /* Red */
+    --syntax-variable: #ea999c;       /* Maroon */
+    --syntax-escape: #f4b8e4;         /* Pink */
+    --syntax-attribute: #e5c890;      /* Yellow */
+    --syntax-tag: #a6d189;            /* Green */
+    --syntax-decorator: #f2d5cf;      /* Rosewater */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="dark"] {
+        --font-size-base: 16px;
+    }
+}

@@ -1,0 +1,49 @@
+/* Dracula - Dark theme */
+
+:root[data-theme="dark"] {
+    /* Colors - Dracula */
+    --bg-primary: #282a36;
+    --bg-secondary: #21222c;
+    --bg-code: #44475a;
+    --text-primary: #f8f8f2;
+    --text-secondary: #e9e9f4;
+    --text-muted: #6272a4;
+    --accent: #bd93f9;
+    --accent-hover: #ff79c6;
+    --border: #44475a;
+    --shadow: rgba(0, 0, 0, 0.4);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #6272a4;        /* Comment */
+    --syntax-keyword: #ff79c6;        /* Pink */
+    --syntax-string: #f1fa8c;         /* Yellow */
+    --syntax-number: #bd93f9;         /* Purple */
+    --syntax-function: #50fa7b;       /* Green */
+    --syntax-class: #8be9fd;          /* Cyan */
+    --syntax-operator: #ff79c6;       /* Pink */
+    --syntax-builtin: #8be9fd;        /* Cyan */
+    --syntax-variable: #f8f8f2;       /* Foreground */
+    --syntax-escape: #ff79c6;         /* Pink */
+    --syntax-attribute: #50fa7b;      /* Green */
+    --syntax-tag: #ff79c6;            /* Pink */
+    --syntax-decorator: #50fa7b;      /* Green */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="dark"] {
+        --font-size-base: 16px;
+    }
+}

@@ -1,0 +1,7 @@
+/* Geist Mono (Code) - Vercel's monospace font */
+
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5/index.css');
+
+:root {
+    --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+}

@@ -1,0 +1,49 @@
+/* Gruvbox Light - Light theme */
+
+:root[data-theme="light"] {
+    /* Colors - Gruvbox Light */
+    --bg-primary: #fbf1c7;
+    --bg-secondary: #f9f5d7;
+    --bg-code: #f2e5bc;
+    --text-primary: #3c3836;
+    --text-secondary: #504945;
+    --text-muted: #665c54;
+    --accent: #076678;
+    --accent-hover: #427b58;
+    --border: #bdae93;
+    --shadow: rgba(60, 56, 54, 0.1);
+
+    /* Syntax highlighting colors */
+    --syntax-comment: #928374;        /* Gray */
+    --syntax-keyword: #9d0006;        /* Red */
+    --syntax-string: #79740e;         /* Green */
+    --syntax-number: #8f3f71;         /* Purple */
+    --syntax-function: #076678;       /* Blue */
+    --syntax-class: #b57614;          /* Yellow */
+    --syntax-operator: #427b58;       /* Aqua */
+    --syntax-builtin: #af3a03;        /* Orange */
+    --syntax-variable: #3c3836;       /* Foreground */
+    --syntax-escape: #8f3f71;         /* Purple */
+    --syntax-attribute: #b57614;      /* Yellow */
+    --syntax-tag: #076678;            /* Blue */
+    --syntax-decorator: #427b58;      /* Aqua */
+
+    /* Typography */
+    --font-size-base: 17px;
+    --line-height: 1.7;
+
+    /* Spacing */
+    --content-width: 720px;
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+}
+
+@media (max-width: 640px) {
+    :root[data-theme="light"] {
+        --font-size-base: 16px;
+    }
+}

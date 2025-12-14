@@ -1,0 +1,7 @@
+/* JetBrains Mono (Code) - Monospace developer font from Google Fonts */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+:root {
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+}

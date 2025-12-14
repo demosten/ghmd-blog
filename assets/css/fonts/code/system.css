@@ -1,0 +1,5 @@
+/* System Font (Code) - Native monospace fonts */
+
+:root {
+    --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+}
