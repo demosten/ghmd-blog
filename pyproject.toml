@@ -41,8 +41,8 @@ dev = [
 ghmd = "ghmd.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/ghmd-blog"
-Repository = "https://github.com/yourusername/ghmd-blog"
+Homepage = "https://github.com/demosten/ghmd-blog"
+Repository = "https://github.com/demosten/ghmd-blog"
 
 [tool.setuptools.packages.find]
 where = ["."]

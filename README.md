@@ -29,7 +29,7 @@ This project is strongly inspired by [plok.sh](https://www.plok.sh/). I recommen
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ghmd-blog.git
+git clone https://github.com/demosten/ghmd-blog.git
 cd ghmd-blog
 
 # Install in development mode
@@ -484,18 +484,15 @@ black ghmd/
 ruff check ghmd/
 ```
 
-### Git Workflow
-
-The project includes a comprehensive `.gitignore` file that automatically excludes:
-
-- Python artifacts (`__pycache__/`, `*.pyc`, `*.egg-info/`)
-- Build and distribution files (`dist/`, `build/`)
-- Virtual environments (`venv/`, `env/`, `.venv/`)
-- IDE/editor files (`.vscode/`, `.idea/`, `*.swp`)
-- OS-specific files (`.DS_Store`, `Thumbs.db`)
-- Generated output (`example/output/` is regenerated on each build)
-
 The `example/blog/` directory is tracked to provide reference content for testing.
+
+```bash
+source .venv/bin/activate
+python -m ghmd.cli build --source ./example/blog --output ./example/output
+```
+
+Then you can load open `./example/output/index.html` in your browser to see the 
+output locally.
 
 ## License
 
