@@ -11,6 +11,7 @@ Comprehensive documentation for ghmd-blog static site generator.
 - [Pagination](#pagination)
 - [Static Files](#static-files)
 - [Theme System](#theme-system)
+- [Customizing Templates](#customizing-templates)
 - [Writing Posts](#writing-posts)
   - [Frontmatter Options](#frontmatter-options)
   - [Static Pages](#static-pages)
@@ -278,6 +279,140 @@ The blog includes 17 professionally designed themes with a manual light/dark tog
 - **Local files** (`file://` protocol): Uses URL parameters to pass theme between pages
 - **HTTP serving**: Uses localStorage for theme persistence
 - **Fallback**: System preference via `prefers-color-scheme` media query
+
+## Customizing Templates
+
+ghmd-blog includes a powerful template override system that allows you to customize your blog's appearance without modifying the core template files. This means you can pull updates from upstream without merge conflicts.
+
+### How It Works
+
+The template system uses a priority-based loading mechanism:
+
+1. **First priority**: Custom templates in your `blog/templates/` directory
+2. **Fallback**: Default templates in `ghmd/templates/` (from the package)
+
+When you create a custom template in your blog directory, it automatically overrides the default template with the same name.
+
+### Available Templates to Override
+
+**Partial templates** (recommended for customization):
+- `partials/header.html.jinja` - Site header with title, description, and theme toggle
+- `partials/footer.html.jinja` - Site footer with copyright and links
+
+**Full templates** (advanced customization):
+- `base.html.jinja` - Base HTML structure (includes head, CSS, JavaScript)
+- `post.html.jinja` - Individual blog post layout
+- `page.html.jinja` - Static page layout (simplified, no TOC/metadata)
+- `index.html.jinja` - Blog listing page with pagination
+
+### Quick Start: Customizing Header and Footer
+
+**Example 1: Custom Header with Navigation**
+
+Create `blog/templates/partials/header.html.jinja`:
+
+```jinja2
+<header class="site-header">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+    <div class="header-content">
+        <a href="{{ config.get_asset_url('index.html') }}" class="site-title">{{ config.title }}</a>
+        {% if config.description %}
+        <p class="site-description">{{ config.description }}</p>
+        {% endif %}
+
+        <!-- Custom navigation -->
+        <nav style="margin-top: 1rem;">
+            <a href="{{ config.get_asset_url('index.html') }}">Home</a> |
+            <a href="{{ config.get_asset_url('about.html') }}">About</a> |
+            <a href="https://github.com/yourusername">GitHub</a>
+        </nav>
+    </div>
+</header>
+```
+
+**Example 2: Custom Footer with Social Links**
+
+Create `blog/templates/partials/footer.html.jinja`:
+
+```jinja2
+<footer class="site-footer">
+    <div style="margin-bottom: 0.5rem;">
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a> |
+        <a href="https://twitter.com/yourusername" target="_blank">Twitter</a> |
+        <a href="mailto:your@email.com">Email</a>
+    </div>
+
+    <p>© 2025 {{ config.title }}. All rights reserved.</p>
+
+    <p style="font-size: 0.875rem; opacity: 0.7;">
+        Powered by <a href="https://github.com/demosten/ghmd-blog">ghmd-blog</a>
+    </p>
+</footer>
+```
+
+### Directory Structure
+
+```
+blog/
+├── ghmd.config.yml
+├── post1.md
+├── post2.md
+└── templates/              # Your custom templates
+    ├── partials/
+    │   ├── header.html.jinja  # Custom header
+    │   └── footer.html.jinja  # Custom footer
+    └── base.html.jinja     # (Optional) Full template override
+```
+
+### Template Variables
+
+All templates have access to the `config` object with your blog configuration:
+
+- `config.title` - Blog title
+- `config.description` - Blog description
+- `config.author` - Default author
+- `config.theme_light` / `config.theme_dark` - Selected themes
+- `config.font_body` / `config.font_code` - Selected fonts
+- `config.get_asset_url(path, depth=0)` - Generate correct asset URLs
+
+**Example usage**:
+```jinja2
+<h1>{{ config.title }}</h1>
+<link rel="stylesheet" href="{{ config.get_asset_url('assets/css/custom.css') }}">
+```
+
+### Advanced: Full Template Override
+
+For more extensive customization, you can override entire templates:
+
+```
+blog/templates/
+├── base.html.jinja     # Custom base layout
+├── post.html.jinja     # Custom post layout
+└── index.html.jinja    # Custom index layout
+```
+
+When overriding full templates, you're responsible for maintaining the complete template structure. See the default templates in `ghmd/templates/` for reference.
+
+### Tips
+
+1. **Start with partials**: Easier to maintain and less likely to break
+2. **Check examples**: See `example/blog/templates/` for working examples
+3. **Version control**: Commit your custom templates to track changes
+4. **Test locally**: Run `ghmd build` to verify your custom templates work
+5. **Update carefully**: If default templates change, you may need to update custom templates
+
+### Deployment Workflow
+
+1. Fork/clone ghmd-blog repository
+2. Create your blog content in `blog/`
+3. Optionally create custom templates in `blog/templates/`
+4. Commit both content and custom templates to your fork
+5. Pull upstream updates without conflicts (your templates are in a separate directory)
+
+Custom templates won't conflict with upstream updates because they live in `blog/templates/` (separate from `ghmd/templates/`).
 
 ## Writing Posts
 

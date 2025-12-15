@@ -1,0 +1,11 @@
+<header class="site-header">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+    </button>
+    <div class="header-content">
+        <a href="{{ config.get_asset_url('index.html') }}" class="site-title">{{ config.title }}</a>
+        {% if config.description %}
+        <p class="site-description">{{ config.description }}</p>
+        {% endif %}
+    </div>
+</header>

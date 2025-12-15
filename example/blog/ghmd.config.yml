@@ -8,8 +8,8 @@ author: "Stan"
 # Available dark themes: default_dark, catppuccin_mocha_dark, catppuccin_frappe_dark, catppuccin_macchiato_dark,
 #                        rose_pine_dark, rose_pine_moon_dark, dracula_dark, tokyo_night_dark, nord_dark,
 #                        github_dark, gruvbox_dark
-theme_light: "catppuccin_latte_light"
-theme_dark: "catppuccin_mocha_dark"
+theme_light: "rose_pine_dawn_light"
+theme_dark: "gruvbox_dark"
 
 # Fonts - separate configuration for body text and code blocks
 # Available body fonts: system, inter, manrope, space-grotesk, outfit, geist

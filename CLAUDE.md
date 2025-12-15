@@ -242,6 +242,38 @@ ghmd-blog/
 - **Validation**: Separate validation for body and code fonts with graceful fallback to `system`
 - **Backward compatibility**: Old `font` field automatically migrates to `font_body`
 
+### 9. Template Override System (`ghmd/generator.py`, `ghmd/templates/partials/`)
+- **Purpose**: Allows users to customize blog appearance without modifying core template files
+- **Architecture**: Uses Jinja2's `ChoiceLoader` for priority-based template loading
+- **Template Loading Priority**:
+  1. **User custom templates**: `blog/templates/` (highest priority)
+  2. **Package default templates**: `ghmd/templates/` (fallback)
+- **Partial Templates**:
+  - `partials/header.html.jinja` - Site header with title, description, theme toggle
+  - `partials/footer.html.jinja` - Site footer with copyright and links
+  - Extracted from `base.html.jinja` for granular customization
+- **Implementation Details**:
+  - `ChoiceLoader` configured in `generator.py` `__init__()` (lines 93-113)
+  - Checks if `config.source_dir / "templates"` exists before adding to loader stack
+  - Prints message when custom templates directory is found
+  - Falls back gracefully if custom template missing
+- **User Workflow**:
+  1. User creates `blog/templates/partials/header.html.jinja` to override header
+  2. Generator detects custom template and uses it instead of default
+  3. Custom templates committed to user's fork (in `blog/templates/`)
+  4. Default templates live in `ghmd/templates/` (tracked separately)
+  5. No merge conflicts when pulling upstream updates
+- **Full Template Override**:
+  - Users can override any template: `base.html.jinja`, `post.html.jinja`, `page.html.jinja`, `index.html.jinja`
+  - Responsible for maintaining complete template structure when overriding full templates
+  - Partials recommended for most use cases
+- **Template Variables Available**:
+  - `config` - Global configuration object with all settings
+  - `post` / `posts` - Post data (context-dependent)
+  - `page_depth` - Directory depth for correct asset URL generation
+  - `filtered_tag` / `tag_description_html` - Tag filtering context (index pages)
+- **Examples**: See `example/blog/templates/partials/` for working examples
+
 ## Data Flow
 
 ### Markdown Posts

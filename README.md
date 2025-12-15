@@ -13,6 +13,7 @@ This project is strongly inspired by [plok.sh](https://www.plok.sh/). I recommen
 - 🎨 17 professionally designed themes with mix-and-match light/dark modes
 - 🌓 Manual light/dark theme toggle with automatic system preference detection
 - 🔤 10 carefully selected free fonts with separate body/code configuration
+- 🎨 Template override system for customizing header/footer without merge conflicts
 - 🏷️ Tag filtering with dedicated index pages and optional descriptions
 - 📑 Auto-generated table of contents
 - ✨ Syntax highlighting for code blocks

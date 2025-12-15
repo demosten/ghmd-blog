@@ -8,7 +8,7 @@ from datetime import datetime, date
 from pathlib import Path
 from typing import Optional, Union
 
-from jinja2 import Environment, FileSystemLoader, PackageLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, PackageLoader, ChoiceLoader, select_autoescape
 
 from .config import Config
 from .parser import MarkdownParser, Post
@@ -89,21 +89,28 @@ class BlogGenerator:
         self.config = config
         self.parser = MarkdownParser()
         self.html_parser = HtmlPageParser()
-        
-        # Set up Jinja2 environment
-        # Try to load from package first, fall back to file system
+
+        # Set up Jinja2 environment with template override support
+        loaders = []
+
+        # Priority 1: User custom templates (if directory exists)
+        user_template_dir = config.source_dir / "templates"
+        if user_template_dir.exists():
+            loaders.append(FileSystemLoader(user_template_dir))
+            print(f"Found custom templates in {user_template_dir}")
+
+        # Priority 2: Package default templates
         try:
-            self.jinja_env = Environment(
-                loader=PackageLoader("ghmd", "templates"),
-                autoescape=select_autoescape(["html", "xml"]),
-            )
+            loaders.append(PackageLoader("ghmd", "templates"))
         except (ValueError, ModuleNotFoundError):
-            # Fall back to file system loader for development
+            # Fallback for development
             template_dir = Path(__file__).parent / "templates"
-            self.jinja_env = Environment(
-                loader=FileSystemLoader(template_dir),
-                autoescape=select_autoescape(["html", "xml"]),
-            )
+            loaders.append(FileSystemLoader(template_dir))
+
+        self.jinja_env = Environment(
+            loader=ChoiceLoader(loaders),
+            autoescape=select_autoescape(["html", "xml"]),
+        )
 
         # Add config to global template context
         self.jinja_env.globals["config"] = config
