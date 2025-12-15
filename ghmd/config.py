@@ -45,7 +45,6 @@ class Config:
     toc_min_headings: int = 3
     show_date: bool = True
     show_reading_time: bool = True
-    show_repo_link: bool = False
     sort_by_update: bool = False
     max_posts_per_index_page: int = 0
 
@@ -120,7 +119,6 @@ class Config:
             toc_min_headings=config_data.get("toc_min_headings", cls.toc_min_headings),
             show_date=config_data.get("show_date", cls.show_date),
             show_reading_time=config_data.get("show_reading_time", cls.show_reading_time),
-            show_repo_link=config_data.get("show_repo_link", cls.show_repo_link),
             sort_by_update=config_data.get("sort_by_update", cls.sort_by_update),
             max_posts_per_index_page=config_data.get("max_posts_per_index_page", cls.max_posts_per_index_page),
             base_url=config_data.get("base_url", cls.base_url),

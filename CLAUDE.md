@@ -296,7 +296,6 @@ show_toc: true                # Enable table of contents
 toc_min_headings: 3           # Minimum headings to show TOC
 show_date: true               # Show post dates
 show_reading_time: true       # Show "X min read"
-show_repo_link: false         # Link to GitHub (false for private repos)
 sort_by_update: false         # Sort by update date (false = sort by original date)
 max_posts_per_index_page: 0   # Posts per index page (0 = all on one page)
 

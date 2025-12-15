@@ -22,7 +22,6 @@ show_toc: true
 toc_min_headings: 3
 show_date: true
 show_reading_time: true
-show_repo_link: false
 sort_by_update: false
 max_posts_per_index_page: 0
 
