@@ -15,6 +15,25 @@ This file provides context for AI assistants (like Claude Code) to help continue
 - Self-hosted on **shared hosting** (no vendor lock-in)
 - Pure Python implementation
 
+## Documentation Structure
+
+The project documentation is split into multiple files:
+
+- **README.md** - Brief project overview with quick start guide (for end users browsing the repository)
+- **MANUAL.md** - Comprehensive user documentation covering all configuration options, features, deployment, and development
+- **CLAUDE.md** - Development context and implementation details (this file, for AI assistants and developers)
+
+When users need detailed information about any feature, configuration, or usage, refer them to MANUAL.md.
+
+### Installation Approaches
+
+The project supports two installation methods:
+
+1. **Install as package**: `pip install -e .` - Creates the `ghmd` command
+2. **Install dependencies only**: `pip install -r requirements.txt` - Use `python -m ghmd.cli` instead
+
+Both approaches are documented in README.md and MANUAL.md. The `python -m ghmd.cli` approach works because Python runs the module directly from source when all dependencies are installed.
+
 ## Architecture
 
 ```
@@ -86,7 +105,8 @@ ghmd-blog/
 ├── pyproject.toml             # Package configuration
 ├── requirements.txt           # Dependencies
 ├── CLAUDE.md                  # Development context (this file)
-└── README.md                  # User documentation
+├── README.md                  # Brief project overview
+└── MANUAL.md                  # Comprehensive user documentation
 ```
 
 ## Core Components
@@ -364,18 +384,39 @@ User blog directories are NOT ignored by default, allowing developers to commit 
 
 ## Development Commands
 
+### Installation Options
+
+**Option 1: Install as package (recommended)**
 ```bash
-# Install in dev mode
+# Install in dev mode (makes 'ghmd' command available)
 pip install -e .
 
+# Or with dev dependencies (pytest, black, ruff)
+pip install -e ".[dev]"
+```
+
+**Option 2: Install dependencies only**
+```bash
+# Install only runtime dependencies
+pip install -r requirements.txt
+
+# Use 'python -m ghmd.cli' instead of 'ghmd' for all commands
+```
+
+### Command Usage
+
+```bash
 # Build example blog
 ghmd build --source ./example/blog --output ./example/output
+# Or: python -m ghmd.cli build --source ./example/blog --output ./example/output
 
 # Initialize new blog
 ghmd init --source ./myblog
+# Or: python -m ghmd.cli init --source ./myblog
 
-# Run with verbose output (add to cli.py if needed)
+# Run with short options
 ghmd build -s ./blog -o ./output
+# Or: python -m ghmd.cli build -s ./blog -o ./output
 ```
 
 ## Implementation Status
@@ -488,6 +529,7 @@ To test changes:
 ```bash
 # Build and inspect output
 ghmd build -s ./example/blog -o ./example/output
+# Or: python -m ghmd.cli build -s ./example/blog -o ./example/output
 
 # Check specific file
 cat ./example/output/index.html
@@ -496,6 +538,8 @@ cat ./example/output/index.html
 open ./example/output/index.html  # macOS
 xdg-open ./example/output/index.html  # Linux
 ```
+
+**Note**: The `ghmd` command requires package installation (`pip install -e .`). Use `python -m ghmd.cli` if you only installed dependencies with `pip install -r requirements.txt`.
 
 ## Adding a New Feature
 
