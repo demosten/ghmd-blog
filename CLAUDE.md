@@ -100,6 +100,7 @@ ghmd-blog/
   - Depth parameter handles nested pages (0 for root, 2 for `/tags/tutorial/`)
   - Uses `../` prefixes for nested pages to maintain correct asset paths
 - `max_posts_per_index_page` - controls pagination (0 = all posts on one page, >0 = split across multiple pages)
+- `tags_as_link` - controls tag linking (True = tags as clickable links with /tags/ folder, False = tags as plain text)
 - `AVAILABLE_BODY_FONTS` - list of valid body font options (6 fonts)
 - `AVAILABLE_CODE_FONTS` - list of valid code font options (4 fonts)
 - Font validation with separate validation for body and code fonts
@@ -153,12 +154,12 @@ ghmd-blog/
   - Calculates page depth based on output path for correct asset URLs
 - `_copy_images()` - copies ALL non-.md, non-.html files preserving directory structure
   - HTML files are handled separately (copied with metadata extraction)
-- **Tag filtering methods**:
+- **Tag filtering methods** (only run when `tags_as_link` is True):
   - `_slugify_tag(tag)` - converts tag names to URL-safe slugs (handles special characters like "C++", "C#", spaces)
   - `_load_tag_description(tag)` - loads and converts tag description from `source/tags/{slug}.md` to HTML
   - `_collect_all_tags(posts)` - extracts all unique tags from posts
   - `_generate_single_tag_index(tag, posts, output_dir)` - generates paginated index for one tag
-  - `_generate_tag_indices(posts, output_dir)` - generates index pages for all tags, returns tag count
+  - `_generate_tag_indices(posts, output_dir)` - generates index pages for all tags, returns tag count (skipped if `tags_as_link` is False)
   - Tag pages created at `/tags/{slug}/index.html` with `page_depth=2` for correct asset paths
 - Uses Jinja2 for templating markdown posts
 
@@ -298,6 +299,7 @@ show_date: true               # Show post dates
 show_reading_time: true       # Show "X min read"
 sort_by_update: false         # Sort by update date (false = sort by original date)
 max_posts_per_index_page: 0   # Posts per index page (0 = all on one page)
+tags_as_link: true            # Enable tag links in index pages (creates /tags/ folder structure)
 
 base_url: "/"                 # Base URL for all links
 ```
@@ -450,15 +452,17 @@ Key implementation details that may not be obvious from the architecture overvie
    - This separation allows any combination of theme + fonts without conflicts
 
 4. **Tag Filtering Implementation** - Server-side tag filtering with dedicated index pages:
-   - Tags extracted from all posts and deduplicated
-   - Separate index pages generated for each tag at `/tags/{slug}/index.html`
+   - Controlled by `tags_as_link` config option (defaults to `True`)
+   - When enabled: tags extracted from all posts and deduplicated, separate index pages generated for each tag at `/tags/{slug}/index.html`
+   - When disabled: tags displayed as plain text, no `/tags/` folder created
    - Tag slugs handle special characters: "C++" → "c-plus-plus", "Machine Learning" → "machine-learning"
    - Tag descriptions loaded from `blog/tags/{slug}.md` (Markdown converted to HTML, no frontmatter)
    - Tag `.md` files excluded from main index (skipped during post parsing)
-   - Tags clickable only in main index, not in tag-filtered views
+   - Tags clickable only in main index when enabled, not in tag-filtered views
    - Pagination applies to tag indices (respects `max_posts_per_index_page`)
    - Depth-aware asset URLs ensure CSS loads correctly from nested tag pages (`page_depth=2`)
    - Template receives `filtered_tag`, `tag_description_html`, and `page_depth` variables
+   - Template checks `config.tags_as_link` to decide whether to render tags as links or plain text
 
 ## Design Decisions
 

@@ -93,6 +93,7 @@ show_date: true                 # Show post dates
 show_reading_time: true         # Show estimated reading time
 sort_by_update: false           # Sort posts by update date (false = sort by original date)
 max_posts_per_index_page: 0     # Posts per index page (0 = all posts on one page)
+tags_as_link: true              # Enable tag links in index pages (creates /tags/ folder structure)
 
 # Output settings
 base_url: "/"                   # Base URL for links
@@ -189,7 +190,16 @@ font_code: "geist-mono"
 
 ## Tag Filtering
 
-The blog supports automatic tag filtering with dedicated index pages for each tag. Tags become clickable in the main index, leading to filtered views showing only posts with that tag.
+The blog supports automatic tag filtering with dedicated index pages for each tag. When enabled (`tags_as_link: true`), tags become clickable in the main index, leading to filtered views showing only posts with that tag.
+
+### Configuration
+
+```yaml
+tags_as_link: true  # Enable tag links (default: true)
+```
+
+- Set to `true` (default): Tags are clickable links, and `/tags/` folder structure is created
+- Set to `false`: Tags are displayed as plain text, no tag filtering pages are generated
 
 ### How It Works
 
@@ -234,6 +244,7 @@ Tag "tutorial":   /tags/tutorial/index.html, /tags/tutorial/index2.html (if pagi
 
 ### Features
 
+- **Optional tag linking**: Enable or disable tag filtering with `tags_as_link` config option
 - **Server-side filtering**: Each tag gets its own static index pages (no JavaScript required)
 - **Pagination support**: Tag indices respect the `max_posts_per_index_page` setting
 - **Smart tag slugification**: Handles special characters ("C++", "C#", spaces, etc.)
