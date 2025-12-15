@@ -197,8 +197,10 @@ class BlogGenerator:
         # Generate index page with all items (posts and HTML pages)
         self._generate_index(all_items, output)
 
-        # Generate tag indices
-        tag_count = self._generate_tag_indices(all_items, output)
+        # Generate tag indices (only if tags_as_link is enabled)
+        tag_count = 0
+        if self.config.tags_as_link:
+            tag_count = self._generate_tag_indices(all_items, output)
 
         # Copy assets
         self._copy_assets(output)

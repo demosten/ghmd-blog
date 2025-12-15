@@ -47,6 +47,7 @@ class Config:
     show_reading_time: bool = True
     sort_by_update: bool = False
     max_posts_per_index_page: int = 0
+    tags_as_link: bool = True  # Enable tag links in index pages (creates /tags/ folder structure)
 
     # Output settings
     base_url: str = "/"
@@ -121,6 +122,7 @@ class Config:
             show_reading_time=config_data.get("show_reading_time", cls.show_reading_time),
             sort_by_update=config_data.get("sort_by_update", cls.sort_by_update),
             max_posts_per_index_page=config_data.get("max_posts_per_index_page", cls.max_posts_per_index_page),
+            tags_as_link=config_data.get("tags_as_link", cls.tags_as_link),
             base_url=config_data.get("base_url", cls.base_url),
             source_dir=src,
         )

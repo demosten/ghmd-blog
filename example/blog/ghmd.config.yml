@@ -24,6 +24,7 @@ show_date: true
 show_reading_time: true
 sort_by_update: false
 max_posts_per_index_page: 0
+tags_as_link: true  # Enable tag links in index pages (creates /tags/ folder structure)
 
 # Output settings
 base_url: "/"
