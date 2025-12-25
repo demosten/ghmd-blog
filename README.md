@@ -72,6 +72,9 @@ ghmd build --source ./blog --output ./output
 
 # If using dependencies only (Option 2)
 python -m ghmd.cli build --source ./blog --output ./output
+
+# Override base_url for local development (optional)
+ghmd build --source ./blog --output ./output --base-url /
 ```
 
 ### Project Structure

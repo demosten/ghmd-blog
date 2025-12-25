@@ -48,8 +48,15 @@ Repository = "https://github.com/demosten/ghmd-blog"
 where = ["."]
 include = ["ghmd*"]
 
+[tool.setuptools]
+include-package-data = true
+
 [tool.setuptools.package-data]
-ghmd = ["templates/*.jinja", "templates/**/*.jinja"]
+ghmd = [
+    "templates/*.jinja",
+    "templates/**/*.jinja",
+    "assets/**/*",
+]
 
 [tool.black]
 line-length = 100

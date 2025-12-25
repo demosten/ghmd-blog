@@ -159,9 +159,14 @@ Desktop.ini
 
 # Project-specific
 # Generated output directory
-example/output/
+**/output/
 
 # User blog directories (optional, uncomment if you want to ignore user content)
 .playwright-mcp/
 # blog/
 # myblog/
+
+# Node.js
+node_modules/
+package-lock.json
+package.json

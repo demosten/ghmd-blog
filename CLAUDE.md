@@ -71,31 +71,31 @@ ghmd-blog/
 │   ├── html_parser.py         # HTML page parsing + metadata extraction
 │   ├── generator.py           # HTML generation orchestrator
 │   ├── toc.py                 # Table of contents generation
-│   └── templates/             # Jinja2 templates
-│       ├── base.html.jinja    # Base layout
-│       ├── index.html.jinja   # Blog listing page (supports tag filtering)
-│       └── post.html.jinja    # Individual post page
-├── assets/
-│   └── css/
-│       ├── base.css                    # Shared formatting rules (all themes)
-│       ├── fonts/                      # Font CSS files (10 fonts total)
-│       │   ├── body/                   # Body fonts (6 fonts)
-│       │   │   ├── system.css          # Native system fonts (default)
-│       │   │   ├── inter.css           # Inter font from Google Fonts
-│       │   │   ├── manrope.css         # Manrope font from Google Fonts
-│       │   │   ├── space-grotesk.css   # Space Grotesk from Google Fonts
-│       │   │   ├── outfit.css          # Outfit font from Google Fonts
-│       │   │   └── geist.css           # Geist font from jsDelivr CDN
-│       │   └── code/                   # Code fonts (4 fonts)
-│       │       ├── system.css          # Native monospace fonts (default)
-│       │       ├── jetbrains-mono.css  # JetBrains Mono from Google Fonts
-│       │       ├── fira-code.css       # Fira Code from Google Fonts
-│       │       └── geist-mono.css      # Geist Mono from jsDelivr CDN
-│       ├── default_light.css           # Default light theme colors
-│       ├── default_dark.css            # Default dark theme colors
-│       ├── syntax_light.css            # Light mode syntax highlighting
-│       ├── syntax_dark.css             # Dark mode syntax highlighting
-│       └── [17 additional theme files] # Catppuccin, Rose Pine, Dracula, etc.
+│   ├── templates/             # Jinja2 templates
+│   │   ├── base.html.jinja    # Base layout
+│   │   ├── index.html.jinja   # Blog listing page (supports tag filtering)
+│   │   └── post.html.jinja    # Individual post page
+│   └── assets/                # Static assets (CSS, fonts)
+│       └── css/
+│           ├── base.css                    # Shared formatting rules (all themes)
+│           ├── fonts/                      # Font CSS files (10 fonts total)
+│           │   ├── body/                   # Body fonts (6 fonts)
+│           │   │   ├── system.css          # Native system fonts (default)
+│           │   │   ├── inter.css           # Inter font from Google Fonts
+│           │   │   ├── manrope.css         # Manrope font from Google Fonts
+│           │   │   ├── space-grotesk.css   # Space Grotesk from Google Fonts
+│           │   │   ├── outfit.css          # Outfit font from Google Fonts
+│           │   │   └── geist.css           # Geist font from jsDelivr CDN
+│           │   └── code/                   # Code fonts (4 fonts)
+│           │       ├── system.css          # Native monospace fonts (default)
+│           │       ├── jetbrains-mono.css  # JetBrains Mono from Google Fonts
+│           │       ├── fira-code.css       # Fira Code from Google Fonts
+│           │       └── geist-mono.css      # Geist Mono from jsDelivr CDN
+│           ├── default_light.css           # Default light theme colors
+│           ├── default_dark.css            # Default dark theme colors
+│           ├── syntax_light.css            # Light mode syntax highlighting
+│           ├── syntax_dark.css             # Dark mode syntax highlighting
+│           └── [15 additional theme files] # Catppuccin, Rose Pine, Dracula, GitHub, Gruvbox, etc.
 ├── example/
 │   ├── blog/                  # Example blog for testing
 │   │   └── tags/              # Example tag descriptions
@@ -115,6 +115,7 @@ ghmd-blog/
 - Dataclass with all configuration options
 - `Config.load(config_path, source_dir)` - loads from YAML or uses defaults
 - Config file is optional: `ghmd.config.yml` in blog directory
+- `base_url` - can be overridden via CLI `--base-url` option (useful for local vs. CI builds)
 - `get_asset_url(path, depth=0)` - generates URLs respecting base_url and page depth
   - Returns relative paths when base_url is `/` for local viewing
   - Depth parameter handles nested pages (0 for root, 2 for `/tags/tutorial/`)
@@ -193,6 +194,8 @@ ghmd-blog/
   - Format: "Generated X posts from Markdown + Y HTML pages = Z total pages"
   - Shows "Created indices for N unique tags" when tags are present
   - Shows simple format when no HTML pages: "Generated X posts"
+  - Supports `--base-url` / `-b` option to override config's `base_url` setting
+  - When `--base-url` is provided, displays "Using base_url: X" message
 - `ghmd init` - scaffold a new blog with example files
 
 ### 7. Theme System (`base.html.jinja`, `base.css`, theme files)
@@ -442,6 +445,10 @@ pip install -r requirements.txt
 ghmd build --source ./example/blog --output ./example/output
 # Or: python -m ghmd.cli build --source ./example/blog --output ./example/output
 
+# Build with base_url override (useful for local testing)
+ghmd build --source ./blog --output ./output --base-url /
+# Or: python -m ghmd.cli build --source ./blog --output ./output --base-url /
+
 # Initialize new blog
 ghmd init --source ./myblog
 # Or: python -m ghmd.cli init --source ./myblog
@@ -449,6 +456,10 @@ ghmd init --source ./myblog
 # Run with short options
 ghmd build -s ./blog -o ./output
 # Or: python -m ghmd.cli build -s ./blog -o ./output
+
+# Run with short options including base_url override
+ghmd build -s ./blog -o ./output -b /
+# Or: python -m ghmd.cli build -s ./blog -o ./output -b /
 ```
 
 ## Implementation Status
@@ -559,9 +570,9 @@ Key implementation details that may not be obvious from the architecture overvie
 To test changes:
 
 ```bash
-# Build and inspect output
-ghmd build -s ./example/blog -o ./example/output
-# Or: python -m ghmd.cli build -s ./example/blog -o ./example/output
+# Build and inspect output (with base_url override for local viewing)
+ghmd build -s ./example/blog -o ./example/output -b /
+# Or: python -m ghmd.cli build -s ./example/blog -o ./example/output -b /
 
 # Check specific file
 cat ./example/output/index.html

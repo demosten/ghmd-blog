@@ -37,13 +37,24 @@ def main():
     default=None,
     help="Path to config file (default: <source>/ghmd.config.yml)",
 )
-def build(source: Path, output: Path, config: Optional[Path]):
+@click.option(
+    "--base-url", "-b",
+    type=str,
+    default=None,
+    help="Override base_url from config (e.g., '/' for local, '/blog' for deployment)",
+)
+def build(source: Path, output: Path, config: Optional[Path], base_url: Optional[str]):
     """Build the static blog from markdown files."""
     click.echo(f"Building blog from {source}...")
-    
+
     # Load configuration
     cfg = Config.load(config_path=config, source_dir=source)
     cfg.output_dir = output
+
+    # Override base_url if provided
+    if base_url is not None:
+        cfg.base_url = base_url
+        click.echo(f"Using base_url: {base_url}")
     
     # Create generator and build
     generator = BlogGenerator(cfg)

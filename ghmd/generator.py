@@ -454,29 +454,16 @@ class BlogGenerator:
 
     def _copy_assets(self, output_dir: Path) -> None:
         """Copy CSS and other static assets to output."""
-        # Determine assets source
-        package_assets = Path(__file__).parent.parent / "assets"
-        
-        if package_assets.exists():
-            assets_src = package_assets
-        else:
-            # Development fallback
-            assets_src = Path(__file__).parent.parent / "assets"
-
+        assets_src = Path(__file__).parent / "assets"
         assets_dst = output_dir / "assets"
 
         if assets_src.exists():
             shutil.copytree(assets_src, assets_dst, dirs_exist_ok=True)
         else:
-            # Create minimal assets directory with embedded CSS
-            assets_dst.mkdir(parents=True, exist_ok=True)
-            css_dir = assets_dst / "css"
-            css_dir.mkdir(exist_ok=True)
-            
-            # Write default CSS inline if assets not found
-            default_css = css_dir / "default.css"
-            if not default_css.exists():
-                default_css.write_text(self._get_fallback_css())
+            raise FileNotFoundError(
+                f"Assets directory not found at {assets_src}. "
+                "Ensure the package was installed correctly with assets included."
+            )
 
     def _copy_images(self, source_dir: Path, output_dir: Path) -> None:
         """Copy all non-markdown files from source to output, preserving directory structure."""
@@ -498,37 +485,3 @@ class BlogGenerator:
             dst_file = output_dir / relative
             dst_file.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src_file, dst_file)
-
-    def _get_fallback_css(self) -> str:
-        """Return minimal fallback CSS if assets not found."""
-        return """
-/* Fallback CSS - replace with actual theme */
-:root {
-    --bg: #ffffff;
-    --text: #1a1a1a;
-    --accent: #0066cc;
-    --muted: #666666;
-    --border: #e0e0e0;
-    --code-bg: #f5f5f5;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-    font-family: system-ui, -apple-system, sans-serif;
-    line-height: 1.6;
-    color: var(--text);
-    background: var(--bg);
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
-}
-
-a { color: var(--accent); }
-h1, h2, h3, h4 { margin: 1.5em 0 0.5em; line-height: 1.3; }
-p { margin: 1em 0; }
-pre, code { background: var(--code-bg); border-radius: 4px; }
-code { padding: 0.2em 0.4em; font-size: 0.9em; }
-pre { padding: 1em; overflow-x: auto; }
-pre code { padding: 0; }
-"""

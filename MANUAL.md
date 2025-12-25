@@ -45,7 +45,7 @@ max_posts_per_index_page: 0     # Posts per index page (0 = all posts on one pag
 tags_as_link: true              # Enable tag links in index pages (creates /tags/ folder structure)
 
 # Output settings
-base_url: "/"                   # Base URL for links
+base_url: "/"                   # Base URL for links (can be overridden via --base-url CLI option)
 ```
 
 ## Available Themes
@@ -557,6 +557,47 @@ Building blog from blog...
 
 This helps you track both converted markdown posts and included HTML pages.
 
+## CLI Options
+
+### Build Command Options
+
+The `ghmd build` command supports several options:
+
+```bash
+ghmd build [OPTIONS]
+```
+
+**Options:**
+
+- `--source` / `-s` (required): Source directory containing blog posts and config
+- `--output` / `-o` (required): Output directory for generated HTML files
+- `--config` / `-c` (optional): Path to config file (default: `{source}/ghmd.config.yml`)
+- `--base-url` / `-b` (optional): Override base_url from config file
+
+**Examples:**
+
+```bash
+# Basic build
+ghmd build --source ./blog --output ./output
+
+# Override base_url for local development
+ghmd build --source ./blog --output ./output --base-url /
+
+# Override base_url for deployment to subdirectory
+ghmd build --source ./blog --output ./output --base-url /blog
+
+# Short form with base_url override
+ghmd build -s ./blog -o ./output -b /
+```
+
+**Use Cases:**
+
+1. **Local development**: Use `--base-url /` to test locally with relative paths
+2. **CI/CD deployment**: Let config file handle base_url (don't use --base-url)
+3. **Subdirectory deployment**: Use `--base-url /subfolder` if deploying to a subdirectory
+
+**Note:** The `--base-url` option overrides the `base_url` setting from your config file. This is useful for testing different URL configurations without modifying the config file.
+
 ## Deployment
 
 ### GitHub Actions + SFTP
@@ -578,6 +619,8 @@ on:
   push:
     paths:
       - 'blog/**'
+      - 'ghmd/**'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 jobs:
@@ -592,21 +635,20 @@ jobs:
           python-version: '3.11'
 
       - name: Install ghmd-blog
-        run: pip install ./ghmd-blog  # or from PyPI when published
+        run: pip install .
 
       - name: Build blog
         run: ghmd build --source ./blog --output ./output
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: ./output/*
-          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
-          sftp_only: true
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y lftp
+          lftp -u ${{ secrets.SFTP_USER }},${{ secrets.SFTP_PASSWORD }} \
+            -e "set sftp:auto-confirm yes; \
+                mirror -R --delete --verbose output/ ${{ secrets.SFTP_REMOTE_PATH }}; \
+                bye" \
+            sftp://${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_PORT }}
 ```
 
 3. Push to your repository — the blog deploys automatically!
@@ -660,6 +702,10 @@ Then you can open `./example/output/index.html` in your browser to see the outpu
 ghmd build --source ./example/blog --output ./example/output
 # Or: python -m ghmd.cli build --source ./example/blog --output ./example/output
 
+# Build with base_url override (useful for local testing)
+ghmd build --source ./blog --output ./output --base-url /
+# Or: python -m ghmd.cli build --source ./blog --output ./output --base-url /
+
 # Initialize new blog
 ghmd init --source ./myblog
 # Or: python -m ghmd.cli init --source ./myblog
@@ -667,4 +713,8 @@ ghmd init --source ./myblog
 # Run with short options
 ghmd build -s ./blog -o ./output
 # Or: python -m ghmd.cli build -s ./blog -o ./output
+
+# Run with short options including base_url override
+ghmd build -s ./blog -o ./output -b /
+# Or: python -m ghmd.cli build -s ./blog -o ./output -b /
 ```
