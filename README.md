@@ -4,6 +4,10 @@ A static blog generator that reads markdown from a GitHub repository and deploys
 
 This project is strongly inspired by [plok.sh](https://www.plok.sh/). I recommend using plok.sh unless you need to self-host your blog (as I do). This is a complete rewrite in Python.
 
+## Demo
+
+See ghmd-blog in action at [demosten.com/ghmd-blog-demo](https://demosten.com/ghmd-blog-demo/)
+
 ## Features
 
 - 📝 Write posts in Markdown with YAML frontmatter
